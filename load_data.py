@@ -122,7 +122,6 @@ securities_df = create_stock_dataframe(watchlist='spdr_sector',
 # creating a daily pct_change version of the securities_df
 securities_pct = securities_df.pct_change()
 
-
 if __name__ == '__main__':
 
     print(len(securities_df.columns))
