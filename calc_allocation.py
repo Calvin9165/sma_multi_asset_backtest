@@ -32,6 +32,19 @@ for security in securities_df:
 # setting the value of short/no position to 0
 positions.fillna(0, inplace=True)
 
-positions['XLE'].plot()
+ticker = 'XLE'
+bm = ticker
+
+
+returns = np.cumprod(1 + (positions[ticker] * securities_pct[ticker]))
+returns_bm = np.cumprod(1 + securities_pct[bm])
+
+fig = plt.figure(figsize=(10, 7))
+
+ax1 = fig.add_subplot(1, 1, 1)
+ax1.plot(returns)
+ax1.plot(returns_bm)
+
+
 plt.show()
 
