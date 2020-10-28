@@ -71,6 +71,8 @@ for t in range(1, len(securities_pct), rebal_freq):
 
         # NOTE: This method is accurate, but isn't perfect - is usually 2%-3% off from backtest #'s over period of time
         # but that's okay since this is quick and dirty to begin with and gets the message across and does so quite accurately, just not perfectly
+
+        # TODO the "pnl_positions.loc" line is overwriting the final pnl value before the rebalance
         pnl_positions.loc[rb_day:rb_end, position] = (positions.loc[rb_day:rb_end, position] - positions.loc[rb_day, position]) + pnl_positions.loc[rb_value, position]
 
     portfolio_value.loc[rb_day: rb_end, 'Portfolio'] = np.nansum(positions.loc[rb_day: rb_end], axis=1)
