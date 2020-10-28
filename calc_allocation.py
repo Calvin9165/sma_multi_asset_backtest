@@ -34,6 +34,19 @@ for security in positions.columns:
     # multiplied by the daily pct return of that security
     returns[security] = np.cumprod(1 + (positions[security] * securities_pct[security]))
 
-returns.plot()
-plt.show()
+# the initial $ value being invested in the portfolio
+invested = 1000
+
+# the frequency with which we'll rebalance the portfolio
+rebal_freq = 21
+
+# creating the DataFrame that will store the $ value of the total portfolio and setting initial value to invested
+portfolio_value = pd.DataFrame(data=None, columns=['Portfolio'], index=returns.index)
+portfolio_value.iloc[0]['Portfolio'] = invested
+
+# pnl_stocks will hold the net PnL Data for each stock over the entire backtest
+pnl_positions = pd.DataFrame(data=0, columns=returns.columns, index=returns.index)
+
+# the $ value allocated in each position
+position_alloc = pd.DataFrame(data=None, columns=returns.columns, index=returns.index)
 
