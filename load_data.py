@@ -109,7 +109,7 @@ def create_index(start, end, index_ticker):
 
 
 # Function Inputs
-start = '2010-01-01'
+start = '2015-01-01'
 end = '2020-10-20'
 lookback_period = None
 
