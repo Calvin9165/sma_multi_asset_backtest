@@ -13,18 +13,11 @@ securities_ma.dropna(axis=0, inplace=True)
 # adjust the length of the original DataFrames to start once the moving average period is calculated
 securities_df, securities_pct = securities_df.loc[securities_ma.index[0]:], securities_pct.loc[securities_ma.index[0]:]
 
-fig = plt.figure()
-
-# ax1 = fig.add_subplot()
-# ax1.plot(securities_df)
-# ax1.plot(securities_ma)
-#
-# plt.show()
-
-# DataFrame which says whether we have a position in a given security based on that security's price relative to it's moving average
+# DataFrame which says whether we have a position in a given security
+# based on that security's price relative to it's moving average
 positions = pd.DataFrame(data=None, columns=securities_df.columns, index=securities_df.index)
 
-for security in securities_df:
+for security in securities_df.columns:
 
     # setting the value of long positions to 1. When the stock price > ma
     positions.loc[securities_df[security].shift(1) > securities_ma[security], security] = 1
@@ -32,19 +25,15 @@ for security in securities_df:
 # setting the value of short/no position to 0
 positions.fillna(0, inplace=True)
 
-ticker = 'XLE'
-bm = ticker
+# creating the DataFrame that will store the cumulative returns for each ticker's sma strategy
+returns = pd.DataFrame(data=None, columns=securities_df.columns, index=securities_df.index)
 
+for security in positions.columns:
 
-returns = np.cumprod(1 + (positions[ticker] * securities_pct[ticker]))
-returns_bm = np.cumprod(1 + securities_pct[bm])
+    # the return column for each respective security is equal to 1 + the cumulative product of the position value
+    # multiplied by the daily pct return of that security
+    returns[security] = np.cumprod(1 + (positions[security] * securities_pct[security]))
 
-fig = plt.figure(figsize=(10, 7))
-
-ax1 = fig.add_subplot(1, 1, 1)
-ax1.plot(returns)
-ax1.plot(returns_bm)
-
-
+returns.plot()
 plt.show()
 
