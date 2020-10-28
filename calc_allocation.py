@@ -58,7 +58,8 @@ for t in range(1, len(securities_pct), rebal_freq):
 
     num_stocks = len(securities_pct.columns)
 
-    rb_day = securities_pct.index[t]
+    # TODO check is adding 1 to rb_day solves the overwriting problem
+    rb_day = securities_pct.index[t + 1]
     rb_value = securities_pct.index[t - 1]
 
     try:
