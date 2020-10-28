@@ -36,6 +36,10 @@ for security in positions_pct.columns:
     # multiplied by the daily pct return of that security
     returns[security] = np.cumprod(1 + (positions_pct[security] * securities_pct[security]))
 
+
+returns['XLB'].plot()
+plt.show()
+
 # the initial $ value being invested in the portfolio
 invested = 1000
 
@@ -68,7 +72,7 @@ for t in range(1, len(securities_pct), rebal_freq):
         rb_end = securities_pct.index[-1]
 
     for position in positions:
-        positions.loc[rb_day: rb_end, position] = (portfolio_value['Portfolio'][rb_value] / num_stocks) * np.cumprod(1 + securities_pct.loc[rb_day: rb_end, position])
+        positions.loc[rb_day: rb_end, position] = (portfolio_value['Portfolio'][rb_value] / num_stocks) * returns.loc[rb_day: rb_end, position]
 
         # NOTE: This method is accurate, but isn't perfect - is usually 2%-3% off from backtest #'s over period of time
         # but that's okay since this is quick and dirty to begin with and gets the message across and does so quite accurately, just not perfectly
@@ -122,4 +126,9 @@ if __name__ == '__main__':
                                                                              strat_end,
                                                                              max_dd))
 
-    pnl_positions.to_csv('pnl_pos.csv')
+    # pnl_positions.to_csv('pnl_pos.csv')
+
+    print(portfolio_value['Portfolio'].iloc[[-1]])
+
+    positions_pct.plot()
+    plt.show()
