@@ -120,7 +120,3 @@ if __name__ == '__main__':
     print('The Max Drawdown for Risk Parity between {} and {} was {}'.format(strat_start,
                                                                              strat_end,
                                                                              max_dd))
-
-    # pnl_positions.to_csv('pnl_pos.csv')
-
-    print(portfolio_value['Portfolio'].iloc[[-1]])
