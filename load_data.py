@@ -110,7 +110,7 @@ def create_index(start, end, index_ticker):
 
 # Function Inputs
 start = '2010-01-01'
-end = '2013-10-20'
+end = '2020-10-20'
 lookback_period = None
 
 securities_df = create_stock_dataframe(watchlist='spdr_sector',
