@@ -59,7 +59,6 @@ for t in range(0, len(dates), rebal_freq):
 
     num_stocks = len(securities_pct.columns)
 
-    # TODO check is adding 1 to rb_day solves the overwriting problem
     if t == 0:
         rb_day = dates[t]
     else:
@@ -75,11 +74,6 @@ for t in range(0, len(dates), rebal_freq):
 
     for position in positions:
         positions.loc[rb_day: rb_end, position] = (portfolio_value['Portfolio'][rb_value] / num_stocks) * np.cumprod(1 + returns.loc[rb_day: rb_end, position])
-
-        # NOTE: This method is accurate, but isn't perfect - is usually 2%-3% off from backtest #'s over period of time
-        # but that's okay since this is quick and dirty to begin with and gets the message across and does so quite accurately, just not perfectly
-
-        # TODO the "pnl_positions.loc" line is overwriting the final pnl value before the rebalance
         pnl_positions.loc[rb_day:rb_end, position] = (positions.loc[rb_day:rb_end, position] - portfolio_value['Portfolio'][rb_value] / num_stocks) + pnl_positions.loc[rb_value, position]
 
     portfolio_value.loc[rb_day: rb_end, 'Portfolio'] = np.nansum(positions.loc[rb_day: rb_end], axis=1)
